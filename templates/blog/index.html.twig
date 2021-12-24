@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home!{% endblock %}
+
+{% block body %}
+
+<style>
+   .articles{
+       border-radius:10px;
+       box-shadow:0 4px 16px rgba(0,0,0,.25);
+       padding : 16px 20px;
+   }
+
+   img{
+       border-radius:10px;
+       box-shadow:0 4px 16px rgba(0,0,0,.25);
+       margin:10px;
+   }
+
+</style>
+<h1>hello tout le monde </h1>
+{% for article in articles %}
+<section class="articles mt-5">
+
+   <article class="mb-5">
+   <h2>{{article.title}}</h2>
+   <div class="metadata">
+      ecrit {{article.createdAt | date('d-m-y') }} à l'heure {{article.createdAt | date('H:i') }}
+    <span class="badge bg-secondary">{{article.category.title}}</span>
+    {% if article.user %}
+    ecrit par <strong><span class="badge bg-danger">{{article.user.firstName}} {{article.user.lastName}}</span></strong>
+    {% endif %}
+   </div>
+   <div class="content">
+    <img src="{{ article.image }}" alt="">
+    <p>{{ article.content }}</p>
+    <a class="btn btn-info mt-5" href="{{ path('article_show', {'id' : article.id}) }}"> Lire la suite </a>
+
+   </div>
+   </article>
+</section>
+{% endfor %}
+
+<div class="navigation mt-5">
+   {{ knp_pagination_render(articles) }}
+</div>
+{% endblock %}

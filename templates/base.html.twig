@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://bootswatch.com/5/litera/bootstrap.min.css">
+            <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+        {% endblock %}
+         
+        
+    </head>
+    <body>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Forum</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                    <a class="nav-link active" href="{{ path('blog') }}">articles
+                    </a>
+                    </li>
+                    
+                    
+
+                    {% if app.user %}
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Salut {{ app.user.firstName }}</a>
+                    </li>
+
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{path('article_new')}}">écrire un article</a>
+                    </li>
+
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">log out</a>
+                    </li>
+                    {% else %}
+                     <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_login') }}">log in</a>
+                    </li>
+                    {% endif %}
+                    
+                </ul>
+                
+                </div>
+            </div>
+            </nav>
+        
+        <div class="container">
+        {% block body %}{% endblock %}
+        </div>
+
+        {% block javascripts %}
+            <script src="//code.jquery.com/jquery.js"></script>
+            <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+  
+        {% endblock %}
+            {{ include('@MercurySeriesFlashy/flashy.html.twig') }}
+        
+        
+    </body>
+</html>

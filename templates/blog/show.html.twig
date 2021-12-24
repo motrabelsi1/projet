@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+{% form_theme commentForm 'bootstrap_4_layout.html.twig' %}
+
+
+{% block title %}
+Blog 
+{% endblock %}
+
+{% block body %}
+
+<style>
+   .articles{
+       border-radius:10px;
+       box-shadow:0 4px 16px rgba(0,0,0,.25);
+       padding : 16px 20px;
+   }
+
+   img{
+       border-radius:10px;
+       box-shadow:0 4px 16px rgba(0,0,0,.25);
+       margin:10px;
+   }
+
+   #comment{
+      padding:10px;
+   }
+
+</style>
+<h1>hello tout le monde </h1>
+
+<section class="articles mt-5">
+
+   <article class="mb-5">
+   <h2>{{article.title}}</h2>
+   <div class="metadata">
+      ecrit {{article.createdAt | date('d-m-y') }} à l'heure {{article.createdAt | date('H:i') }}
+    <span class="badge bg-danger">{{article.comments | length }} commentaires </span>
+
+    <span class="badge bg-secondary">{{article.category.title}}</span>
+   </div>
+   <div class="content">
+    <img src="{{ article.image }}" alt="">
+    <p>{{ article.content }}</p>
+    
+
+   </div>
+   </article>
+</section>
+
+   {% if app.user %}
+      {% if app.user == article.user %}
+
+
+
+      <a href="{{ path('article_edit', {'id' : article.id}) }}" class="btn btn-success mt-5 mb-5">Modifier</a>
+      {% endif %}
+   {% endif %}
+<hr>
+
+<h2 class="mt-5">Les commentaire</h2>
+<section id="comment">
+{% for comment in article.comments %}
+   <div class="comment">
+      <div class="row">
+         <div class="md-col-3" style="color:red;">
+            (<small>{{comment.createdAt | date('d-m-y') }} à l'heure {{comment.createdAt | date('H:i') }}</small> ) {{ comment.author}}
+
+         </div>
+      </div>
+      <p>{{comment.content}}</p>
+   </div>
+{% endfor %}
+</section>
+
+<hr>
+
+   {% if not app.user %}
+   <h2>il faut que tu sois connecté </h2>
+   <a class="btn btn-info" href="{{path('app_login')}}">sign in </a>
+   {% else %}
+   <section>
+     <h2>Ajouter un commentaire</h2>
+
+     
+{{ form_start(commentForm) }}
+{{ form_widget(commentForm) }}
+
+<button class="btn btn-success mb-5 ">Ajouter un commentaire</button>
+{{ form_end(commentForm) }}
+   </section>
+
+   {% endif %}
+
+{% endblock %}
